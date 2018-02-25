@@ -10,7 +10,7 @@
 // RTC Module
 RTC_DS1307 RTC;
 
-// LED
+// LED test
 const int ledPin = 6;
 
 // BUTTON
