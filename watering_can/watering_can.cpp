@@ -10,12 +10,14 @@
 // RTC Module
 RTC_DS1307 RTC;
 
-// LED test
+// LED
 const int ledPin = 6;
 
 // BUTTON
 const int buttonPin = 2;
+const int buttonPin_on = 3;
 volatile int buttonState = 0;
+volatile int buttonState_on = 0;
 
 // the following variables are unsigned long's because the time, measured in miliseconds,
 // will quickly become a bigger number than can be stored in an int.
@@ -40,9 +42,12 @@ void setup(void){
 
   // Button Pin Setup
   pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(buttonPin_on, INPUT_PULLUP);
 
   // Define the interrupt function
   attachInterrupt(0, pin_ISR, FALLING);
+
+  attachInterrupt(1, pin_ISR_1, FALLING);
 }
 
 
@@ -62,12 +67,12 @@ void loop(){
 
   // Check, if it is time to water the plants
   if(is_watertime == true){
-    switch_on_pump();
+    //switch_on_pump();
     // Wait two hours to not water the plants again in this hour (see get_watertime for more info)
-    delay(432000000)
+    delay(432000000);
   }
   else{
-    switch_off_pump();
+    //switch_off_pump();
   }
 
 
@@ -77,7 +82,11 @@ void loop(){
 // If a button press is detected, shut off the pump immediately
 void pin_ISR() {
   switch_off_pump();
-  delay(60000);
+}
+
+// If a button press is detected, switch on the pump immediately
+void pin_ISR_1() {
+  switch_on_pump();
 }
 
 
@@ -119,7 +128,7 @@ boolean get_watertime(DateTime datetime){
   // Check, if it is the right time
   if((datetime.hour() >= 17) && (datetime.hour() < 18)){
     // Check if is the right day
-    if(day == 4){
+    if(day == 1){
       is_watertime = true;
     }
     else{
@@ -137,7 +146,7 @@ void switch_off_pump(){
   digitalWrite(ledPin, LOW);
 }
 
-// Switch teh pump on
+// Switch the pump on
 void switch_on_pump(){
   digitalWrite(ledPin, HIGH);
 }
