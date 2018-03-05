@@ -12,6 +12,7 @@ RTC_DS1307 RTC;
 
 // LED
 const int ledPin = 6;
+const int pumpPin = 8;
 
 // BUTTON
 const int buttonPin = 2;
@@ -39,6 +40,7 @@ void setup(void){
 
   // LED Pin Setup
   pinMode(ledPin, OUTPUT);
+  pinMode(pumpPin, OUTPUT);
 
   // Button Pin Setup
   pinMode(buttonPin, INPUT_PULLUP);
@@ -144,9 +146,11 @@ boolean get_watertime(DateTime datetime){
 // Switch the pump off
 void switch_off_pump(){
   digitalWrite(ledPin, LOW);
+  digitalWrite(pumpPin, LOW);
 }
 
 // Switch the pump on
 void switch_on_pump(){
   digitalWrite(ledPin, HIGH);
+  digitalWrite(pumpPin, HIGH);
 }
